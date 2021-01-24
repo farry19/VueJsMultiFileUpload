@@ -24,26 +24,22 @@
           :key="`file-${index}`"
           class="md:flex mx-6 h-full md:mx-auto max-w-lg md:max-w-2xl h-64 my-4"
         >
-          <div class="relative md:w-1/4 bg-white rounded-l-lg">
+          <div class="relative md:w-1/4 bg-white rounded-l">
             <input
               type="file"
               @change="uploadFile($event, index)"
               class="absolute h-full w-full opacity-0"
             />
             <div
-              class="h-full w-full rounded-l-lg"
+              class="h-full w-full rounded-l"
               style="background-size: cover"
               :style="{
-                'background-image': `url(${
-                  file.preview ? file.preview : 'https://placehold.it/150x115'
-                })`,
+                'background-image': `url(${file.preview})`,
               }"
               alt="bag"
             ></div>
           </div>
-          <div
-            class="w-full h-full md:w-3/4 px-4 py-4 bg-white rounded-r-lg flex"
-          >
+          <div class="w-full h-full md:w-3/4 px-4 py-4 bg-white rounded-r flex">
             <div class="w-full h-full flex flex-col">
               <a
                 @click="removeFile(index)"
@@ -77,24 +73,25 @@ import axios from "axios";
 
 const tmpFile = {
   data: null,
-  preview: null,
+  preview: "https://placehold.it/150x115",
+  description: null,
 };
 
 export default {
   name: "Upload",
   data() {
     return {
-      previewImage: null,
       files: [],
     };
   },
   mounted() {
-    // :style="files[index].preview ? 'background-image': `url(${files[index].preview})` : `url('https://ik.imagekit.io/q5edmtudmz/FB_IMG_15658659197157667_wOd8n5yFyXI.jpg')`"
     this.files.push({ ...tmpFile });
   },
   methods: {
     addFiles() {
       this.files.push({ ...tmpFile });
+
+      this.$emit("input", this.files);
     },
     loadPreview(file, index) {
       let reader = new FileReader();
@@ -109,19 +106,16 @@ export default {
     uploadFile(event, index) {
       this.files[index].data = event.target.files[0];
       this.loadPreview(event.target.files[0], index);
-      // this.files[index].data = event.target.files[0];
     },
-    handleSubmit() {
-      const formData = new FormData();
-      for (const i of Object.keys(this.files)) {
-        formData.append("files", this.files[i]);
-      }
-      axios
-        .post("http://localhost:4000/api/file-upload", formData, {})
-        .then((res) => {
-          console.log(res);
-        });
-    },
+    // handleSubmit() {
+    //   const formData = new FormData()
+    //   for (const i of Object.keys(this.files)) {
+    //     formData.append('files', this.files[i])
+    //   }
+    //   axios.post('http://localhost:4000/api/file-upload', formData, {}).then(res => {
+    //     console.log(res)
+    //   })
+    // },
   },
 };
 </script>
