@@ -1,0 +1,14 @@
+{
+  "name": "vue-tailwindcss-layout",
+  "version": "1.0.0",
+  "description": "vue and tailwind example layout",
+  "keywords": [],
+  "main": "index.js",
+  "dependencies": {
+    "@vue/babel-preset-app": "4.5.11",
+    "axios": "0.21.1",
+    "tailwindcss": "0.5.1",
+    "vue": "2.5.2",
+    "vue-router": "3.0.1"
+  }
+}
